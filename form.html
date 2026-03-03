@@ -22,48 +22,59 @@
       overflow-x:hidden;
     }
 
-    /* ===== NAV (Responsive) ===== */
+    /* NAV (אותו סטייל) */
     nav{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      background:rgba(0,0,0,0.65);
-      backdrop-filter: blur(8px);
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:10;
+      display:flex;
+      direction:rtl;
+      justify-content:space-between;
+      align-items:center;
       padding:18px 60px;
+      gap:18px;
     }
-    .nav-inner{display:flex;justify-content:space-between;align-items:center;gap:14px;}
-    .menu{display:flex;gap:28px;align-items:center;flex-wrap:wrap;}
+    .menu{
+      display:flex;
+      gap:30px;
+      justify-content:flex-end;
+      align-items:center;
+      flex-wrap:wrap;
+    }
     .menu a{
-      text-decoration:none;color:#fff;font-weight:400;transition:.25s;
-      position:relative;padding:8px 16px;border-radius:6px;
+      text-decoration:none;
+      color:#fff;
+      font-weight:400;
+      transition:.25s;
     }
     .menu a:hover{ color:var(--gold); }
-    .menu a.active::after{
-      content:"";position:absolute;inset:0;border:1px solid var(--gold);
-      border-radius:6px;pointer-events:none;
+    .cta-btn{
+      border:1px solid var(--gold);
+      padding:8px 18px;
+      border-radius:4px;
     }
     .actions{
-      display:flex;gap:10px;align-items:center;direction:ltr;flex-wrap:nowrap;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      direction:ltr;
+      flex-wrap:wrap;
     }
     .action-btn{
-      background:#000;border:2px solid var(--gold);
-      padding:9px 14px;text-decoration:none;color:#fff;
-      font-weight:800;border-radius:6px;transition:.25s;line-height:1;white-space:nowrap;
+      background:#000;
+      border:2px solid var(--gold);
+      padding:10px 18px;
+      text-decoration:none;
+      color:#fff;
+      font-weight:800;
+      border-radius:4px;
+      transition:.25s;
+      line-height:1;
+      white-space:nowrap;
       cursor:pointer;
     }
     .action-btn:hover{ background:var(--gold); color:#000; }
     .action-btn.primary{ background:var(--gold); color:#000; }
-
-    .nav-toggle{
-      display:none;
-      background:transparent;
-      border:1px solid rgba(212,175,55,0.9);
-      color:#fff;
-      border-radius:10px;
-      padding:10px 12px;
-      font-weight:900;
-      line-height:1;
-      cursor:pointer;
-      white-space:nowrap;
-    }
 
     /* PAGE */
     .hero{
@@ -73,7 +84,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:120px 20px 70px;
+      padding:110px 20px 70px;
     }
     .hero::before{
       content:"";
@@ -186,55 +197,95 @@
     }
     .btn.primary:hover{ filter:brightness(1.05); }
 
-    @media(max-width:900px){
-      nav{ padding:14px 16px; }
-      .nav-toggle{display:inline-flex;}
-      .menu{
-        display:none;
-        width:100%;
-        flex-direction:column;
-        align-items:stretch;
-        gap:10px;
-        background:rgba(0,0,0,0.85);
-        border:1px solid rgba(255,255,255,0.10);
-        border-radius:14px;
-        padding:12px;
-        margin-top:10px;
-      }
-      nav.open .menu{display:flex;}
-      .menu a{
-        width:100%;
-        text-align:right;
-        padding:12px 14px;
-        background:rgba(0,0,0,0.35);
-        border:1px solid rgba(255,255,255,0.10);
-        border-radius:12px;
-      }
-      .actions{gap:8px;}
-      .action-btn{padding:9px 10px;font-size:13px;}
+    @media(max-width:1000px){
+      nav{ padding:16px 18px; }
+      .menu{ gap:18px; }
       .header h1{ font-size:42px; }
     }
     @media(max-width:720px){
       .grid{ grid-template-columns:1fr; }
     }
-    @media(max-width:420px){
-      .action-btn{padding:8px 9px;font-size:12px;}
-      .nav-toggle{padding:9px 10px;}
-    }
-  </style>
+  
+/* ===== MOBILE NAV (keeps desktop unchanged) ===== */
+#siteNav .nav-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;}
+#siteNav .nav-toggle{
+  display:none;
+  background:transparent;
+  border:1px solid rgba(212,175,55,0.85);
+  color:#fff;
+  border-radius:10px;
+  padding:10px 12px;
+  font-weight:900;
+  line-height:1;
+  cursor:pointer;
+  white-space:nowrap;
+}
+@media (max-width: 900px){
+  #siteNav{padding:14px 14px !important; gap:12px !important;}
+  #siteNav .nav-inner{flex-wrap:wrap;}
+  #siteNav .nav-toggle{display:inline-flex;}
+  #siteNav .menu{
+    display:none !important;
+    width:100%;
+    gap:10px !important;
+    padding-top:10px;
+  }
+  #siteNav.open .menu{
+    display:flex !important;
+    flex-direction:column;
+    align-items:stretch;
+    background:rgba(0,0,0,0.72);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:14px;
+    padding:12px;
+    margin-top:10px;
+    max-height:calc(100vh - 90px);
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #siteNav.open .menu a{
+    width:100%;
+    text-align:right;
+    padding:12px 14px;
+    background:rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:12px;
+  }
+  #siteNav .actions{
+    gap:8px !important;
+    flex-wrap:nowrap !important;
+  }
+  #siteNav .action-btn{
+    padding:9px 10px !important;
+    font-size:13px !important;
+  }
+  #siteNav .menu a.active::after{
+    inset:0;
+    border-radius:12px;
+  }
+}
+@media (max-width: 420px){
+  #siteNav .action-btn{
+    padding:8px 9px !important;
+    font-size:12px !important;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<nav>
+<nav id="siteNav">
   <div class="nav-inner">
-    <button class="nav-toggle" type="button" aria-label="פתח תפריט">☰</button>
+    <button class="nav-toggle" type="button" aria-label="פתח תפריט" aria-expanded="false">☰</button>
 
-    <div class="menu">
+    <div class="menu" id="siteMenu">
       <a class="nav-link" href="index.html#home">עמוד הבית</a>
       <a class="nav-link" href="index.html#about">אודות</a>
       <a class="nav-link" href="events.html">תפריט אירועים</a>
       <a class="nav-link" href="restaurant-menu.html">תפריט המסעדה</a>
+      <a class="nav-link" href="#">תעודות כשרות</a>
+      <a class="nav-link" href="#">גלריה</a>
       <a class="nav-link" href="contact.html">צור קשר</a>
     </div>
 
@@ -245,116 +296,104 @@
   </div>
 </nav>
 
-<section class="hero">
-  <div class="wrap">
-    <div class="header">
-      <h1>הזמנת שולחן</h1>
-      <p>ממלאים פרטים, לוחצים “שלח הזמנה” — ואנחנו מקבלים הודעה בוואטסאפ.</p>
+  <section class="hero">
+    <div class="wrap">
+      <div class="header">
+        <h1>הזמנת שולחן</h1>
+        <p>ממלאים פרטים, לוחצים “שלח הזמנה” — ואנחנו מקבלים הודעה בוואטסאפ.</p>
+      </div>
+
+      <div class="card">
+        <form id="reservationForm">
+          <div class="grid">
+            <div class="field">
+              <label for="fullName">שם מלא *</label>
+              <input id="fullName" name="fullName" type="text" placeholder="לדוגמה: דנה לוי" required />
+            </div>
+
+            <div class="field">
+              <label for="phone">טלפון *</label>
+              <input id="phone" name="phone" type="tel" placeholder="05XXXXXXXX" required />
+            </div>
+
+            <div class="field">
+              <label for="date">תאריך *</label>
+              <input id="date" name="date" type="date" required />
+            </div>
+
+            <div class="field">
+              <label for="time">שעה *</label>
+              <input id="time" name="time" type="time" required />
+            </div>
+
+            <div class="field">
+              <label for="people">כמות אנשים *</label>
+              <select id="people" name="people" required>
+                <option value="" selected disabled>בחר/י כמות</option>
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+                <option>16</option><option>17</option><option>18</option><option>19</option><option>20+</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="occasion">סיבה/אירוע (אופציונלי)</label>
+              <input id="occasion" name="occasion" type="text" placeholder="יום הולדת / משפחתי / דייט..." />
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="notes">הערות (אופציונלי)</label>
+              <textarea id="notes" name="notes" placeholder="כיסא תינוק / עגלה / אלרגיות / ישיבה בחוץ..."></textarea>
+            </div>
+          </div>
+
+          <div class="buttons">
+            <button class="btn primary" type="submit">שלח הזמנה בוואטסאפ</button>
+            <button class="btn" type="button" onclick="window.location.href='index.html#home'">חזרה לעמוד הבית</button>
+          </div>
+
+          <div class="hint">
+            * ההודעה נשלחת בוואטסאפ כהודעה מוכנה. לאחר שנפתח הוואטסאפ פשוט לוחצים “שליחה”.
+          </div>
+        </form>
+      </div>
     </div>
+  </section>
 
-    <div class="card">
-      <form id="reservationForm">
-        <div class="grid">
-          <div class="field">
-            <label for="fullName">שם מלא *</label>
-            <input id="fullName" name="fullName" type="text" placeholder="לדוגמה: דנה לוי" required />
-          </div>
+  <script>
+    // 👉 החליפי למספר הוואטסאפ של העסק בפורמט בינלאומי (ללא + וללא 0 בתחילת הקידומת)
+    // דוגמה: 972501234567
+    const WHATSAPP_NUMBER = "PHONE_NUMBER";
 
-          <div class="field">
-            <label for="phone">טלפון *</label>
-            <input id="phone" name="phone" type="tel" placeholder="05XXXXXXXX" required />
-          </div>
+    function pad2(n){ return String(n).padStart(2,'0'); }
 
-          <div class="field">
-            <label for="date">תאריך *</label>
-            <input id="date" name="date" type="date" required />
-          </div>
+    document.getElementById('reservationForm').addEventListener('submit', function(e){
+      e.preventDefault();
 
-          <div class="field">
-            <label for="time">שעה *</label>
-            <input id="time" name="time" type="time" required />
-          </div>
+      const name = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const people = document.getElementById('people').value;
+      const occasion = document.getElementById('occasion').value.trim();
+      const notes = document.getElementById('notes').value.trim();
 
-          <div class="field">
-            <label for="people">כמות אנשים *</label>
-            <select id="people" name="people" required>
-              <option value="" selected disabled>בחר/י כמות</option>
-              <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-              <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-              <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
-              <option>16</option><option>17</option><option>18</option><option>19</option><option>20+</option>
-            </select>
-          </div>
+      if(!name || !phone || !date || !time || !people){
+        alert("אנא מלא/י את כל השדות המסומנים בכוכבית.");
+        return;
+      }
 
-          <div class="field">
-            <label for="occasion">סיבה/אירוע (אופציונלי)</label>
-            <input id="occasion" name="occasion" type="text" placeholder="יום הולדת / משפחתי / דייט..." />
-          </div>
-        </div>
+      // תאריך יפה DD/MM/YYYY
+      let niceDate = date;
+      const parts = date.split('-');
+      if(parts.length === 3){
+        niceDate = `${pad2(parts[2])}/${pad2(parts[1])}/${parts[0]}`;
+      }
 
-        <div class="row2">
-          <div class="field">
-            <label for="notes">הערות (אופציונלי)</label>
-            <textarea id="notes" name="notes" placeholder="כיסא תינוק / עגלה / אלרגיות / ישיבה בחוץ..."></textarea>
-          </div>
-        </div>
-
-        <div class="buttons">
-          <button class="btn primary" type="submit">שלח הזמנה בוואטסאפ</button>
-          <button class="btn" type="button" onclick="window.location.href='index.html#home'">חזרה לעמוד הבית</button>
-        </div>
-
-        <div class="hint">
-          * ההודעה נשלחת בוואטסאפ כהודעה מוכנה. לאחר שנפתח הוואטסאפ פשוט לוחצים “שליחה”.
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<script>
-  // Mobile nav toggle
-  (function(){
-    const nav = document.querySelector('nav');
-    const btn = document.querySelector('.nav-toggle');
-    if(btn && nav){
-      btn.addEventListener('click', () => nav.classList.toggle('open'));
-    }
-    document.querySelectorAll('.menu a').forEach(a=>{
-      a.addEventListener('click', ()=>{
-        if(window.innerWidth <= 900) nav.classList.remove('open');
-      });
-    });
-  })();
-
-  // WhatsApp form
-  const WHATSAPP_NUMBER = "PHONE_NUMBER";
-
-  function pad2(n){ return String(n).padStart(2,'0'); }
-
-  document.getElementById('reservationForm').addEventListener('submit', function(e){
-    e.preventDefault();
-
-    const name = document.getElementById('fullName').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const date = document.getElementById('date').value;
-    const time = document.getElementById('time').value;
-    const people = document.getElementById('people').value;
-    const occasion = document.getElementById('occasion').value.trim();
-    const notes = document.getElementById('notes').value.trim();
-
-    if(!name || !phone || !date || !time || !people){
-      alert("אנא מלא/י את כל השדות המסומנים בכוכבית.");
-      return;
-    }
-
-    let niceDate = date;
-    const parts = date.split('-');
-    if(parts.length === 3){
-      niceDate = `${pad2(parts[2])}/${pad2(parts[1])}/${parts[0]}`;
-    }
-
-    let msg =
+      let msg =
 `היי שיפודי מושון 👋
 אשמח להזמין שולחן:
 
@@ -364,20 +403,56 @@
 שעה: ${time}
 כמות אנשים: ${people}`;
 
-    if(occasion) msg += `\nסיבה/אירוע: ${occasion}`;
-    if(notes) msg += `\nהערות: ${notes}`;
+      if(occasion) msg += `\nסיבה/אירוע: ${occasion}`;
+      if(notes) msg += `\nהערות: ${notes}`;
 
-    msg += `\n\nתודה!`;
+      msg += `\n\nתודה!`;
 
-    if(WHATSAPP_NUMBER === "PHONE_NUMBER"){
-      alert("חסר מספר וואטסאפ בדף. החליפי את PHONE_NUMBER למספר העסק בפורמט בינלאומי.");
-      return;
-    }
+      if(WHATSAPP_NUMBER === "PHONE_NUMBER"){
+        alert("חסר מספר וואטסאפ בדף. החליפי את PHONE_NUMBER למספר העסק בפורמט בינלאומי.");
+        return;
+      }
 
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-    window.open(url, "_blank");
-  });
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank");
+    });
+  </script>
+
+<script>
+(function(){
+  const nav = document.getElementById('siteNav');
+  const btn = nav ? nav.querySelector('.nav-toggle') : null;
+
+  function setExpanded(open){
+    if(!btn) return;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  if(btn && nav){
+    btn.addEventListener('click', function(){
+      nav.classList.toggle('open');
+      setExpanded(nav.classList.contains('open'));
+    });
+
+    // close after clicking a link (mobile)
+    nav.querySelectorAll('.menu a').forEach(a=>{
+      a.addEventListener('click', ()=>{
+        if(window.innerWidth <= 900){
+          nav.classList.remove('open');
+          setExpanded(false);
+        }
+      });
+    });
+
+    // close on resize to desktop
+    window.addEventListener('resize', ()=>{
+      if(window.innerWidth > 900){
+        nav.classList.remove('open');
+        setExpanded(false);
+      }
+    });
+  }
+})();
 </script>
-
 </body>
 </html>

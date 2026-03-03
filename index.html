@@ -1,182 +1,380 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>שיפודי מושון - גריל בר בשרים</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>שיפודי מושון - גריל בר בשרים</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet"/>
 
+  <style>
+    :root{ --gold:#d4af37; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Heebo',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
+
+    /* ===== NAV (IDENTICAL IN ALL PAGES) ===== */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:50;
+      display:flex;direction:rtl;justify-content:space-between;align-items:center;
+      padding:18px 60px;gap:18px;
+      background:rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+    }
+    .menu{display:flex;gap:30px;align-items:center;flex-wrap:wrap;}
+    .menu a{
+      text-decoration:none;color:#fff;font-weight:400;transition:.25s;
+      position:relative;padding:8px 18px;border-radius:4px;
+    }
+    .menu a:hover{color:var(--gold);}
+    .menu a.active::after{
+      content:"";position:absolute;inset:0;border:1px solid var(--gold);
+      border-radius:4px;pointer-events:none;
+    }
+
+    .actions{display:flex;gap:12px;align-items:center;direction:ltr;flex-wrap:wrap;}
+    .action-btn{
+      background:#000;border:2px solid var(--gold);
+      padding:10px 18px;text-decoration:none;color:#fff;
+      font-weight:800;border-radius:4px;transition:.25s;line-height:1;white-space:nowrap;
+    }
+    .action-btn:hover{background:var(--gold);color:#000;}
+    .action-btn.primary{background:var(--gold);color:#000;}
+
+    /* ===== HERO ===== */
+    .hero{
+      height:100vh;
+      background:url('hero.jpg') center/cover no-repeat;
+      position:relative;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.80), rgba(0,0,0,0.30), rgba(0,0,0,0.85));
+    }
+    .hero-center{position:relative;z-index:2;text-align:center;padding:0 18px;}
+    .hero-center h1{
+      font-family:'Secular One','Heebo',sans-serif;
+      font-size:86px;letter-spacing:2px;color:var(--gold);
+      text-shadow:0 8px 24px rgba(0,0,0,0.65);
+    }
+    .hero-center p{margin-top:12px;font-size:24px;font-weight:300;letter-spacing:2px;opacity:0.95;}
+
+    /* ===== MENU SECTION (still exists as content, not in top nav) ===== */
+    .menu-section{
+      position:relative;min-height:100vh;
+      background:url('menu.jpg') center/cover no-repeat;
+      display:flex;align-items:center;
+    }
+    .menu-section::before{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(to left, rgba(0,0,0,0.15), rgba(0,0,0,0.85) 55%);
+    }
+    .menu-inner{position:relative;width:min(1200px,92%);margin:0 auto;padding:60px 0;}
+    .menu-content{max-width:600px;}
+    .menu-content h2{
+      font-family:'Secular One','Heebo',sans-serif;
+      font-size:90px;letter-spacing:2px;color:var(--gold);line-height:1;margin-bottom:18px;
+    }
+    .menu-content p{font-size:18px;line-height:1.9;margin-bottom:14px;opacity:.95;}
+    .menu-buttons{display:flex;gap:18px;flex-wrap:wrap;margin-top:28px;}
+    .menu-btn{
+      background:var(--gold);color:#000;text-decoration:none;
+      padding:12px 22px;border-radius:4px;font-weight:700;transition:.25s;
+    }
+    .menu-btn:hover{filter:brightness(1.05);transform:translateY(-1px);}
+
+    /* ===== ABOUT ===== */
+    .about-section{background:#0b0b0b;padding:0;position:relative;z-index:1;}
+    .about-hero{position:relative;width:100%;height:100vh;overflow:hidden;}
+    .about-hero img{width:100%;height:100%;object-fit:cover;display:block;}
+    .about-overlay{
+      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+      padding:70px 20px 40px;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.28), rgba(0,0,0,0.78));
+    }
+    .about-content{
+      max-width:980px;width:min(980px,100%);
+      padding:46px 30px;background:rgba(0,0,0,0.50);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;backdrop-filter: blur(4px);
+    }
+    .about-content h2{font-size:44px;font-weight:900;letter-spacing:1px;margin-bottom:16px;color:var(--gold);}
+    .about-content h3{font-size:26px;font-weight:800;margin:26px 0 10px;}
+    .about-content p{font-size:18px;line-height:1.95;font-weight:300;opacity:0.96;margin:0 0 14px;}
+
+    @media(max-width:1000px){
+      nav{padding:16px 18px;}
+      .menu{gap:18px;}
+      .hero-center h1{font-size:56px;}
+      .hero-center p{font-size:18px;}
+    }
+    @media(max-width:600px){
+      .action-btn{padding:9px 14px;font-size:14px;}
+      .menu{gap:14px;}
+    }
 <style>
-:root{ --gold:#d4af37; }
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'Heebo',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
-
-/* ===== NAV ===== */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(0,0,0,0.65);
-  backdrop-filter: blur(8px);
-  padding:18px 60px;
-}
-
-.nav-inner{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.menu{
-  display:flex;
-  gap:28px;
-  flex-wrap:wrap;
-}
-
-.menu a{
-  text-decoration:none;
-  color:#fff;
-  padding:8px 16px;
-  border-radius:6px;
-  transition:.25s;
-  position:relative;
-}
-
-.menu a:hover{color:var(--gold);}
-
-.menu a.active::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border:1px solid var(--gold);
-  border-radius:6px;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  direction:ltr;
-}
-
-.action-btn{
-  border:2px solid var(--gold);
-  padding:9px 14px;
-  font-weight:800;
-  border-radius:6px;
-  text-decoration:none;
-  color:#fff;
-  transition:.25s;
-}
-
-.action-btn:hover{background:var(--gold);color:#000;}
-.action-btn.primary{background:var(--gold);color:#000;}
-
-.nav-toggle{
-  display:none;
-  background:none;
-  border:1px solid var(--gold);
-  color:#fff;
-  padding:8px 12px;
-  border-radius:8px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-/* ===== HERO ===== */
-.hero{
-  height:100vh;
-  background:url('hero.jpg') center/cover no-repeat;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(to bottom, rgba(0,0,0,.8), rgba(0,0,0,.3), rgba(0,0,0,.85));
-}
-.hero-center{
-  position:relative;
-  z-index:2;
-  text-align:center;
-}
-.hero-center h1{
-  font-family:'Secular One';
-  font-size:80px;
-  color:var(--gold);
-}
-.hero-center p{
-  font-size:22px;
-  margin-top:10px;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:900px){
-
-  nav{padding:14px 16px;}
-
-  .nav-toggle{display:block;}
-
-  .menu{
+  /* ===== MOBILE NAV (doesn't affect desktop) ===== */
+  .nav-toggle{
     display:none;
-    flex-direction:column;
-    background:rgba(0,0,0,.85);
-    padding:15px;
-    border-radius:12px;
-    margin-top:12px;
+    background:transparent;
+    border:1px solid rgba(212,175,55,0.7);
+    color:#fff;
+    border-radius:10px;
+    padding:10px 12px;
+    font-weight:900;
+    line-height:1;
+    cursor:pointer;
   }
 
-  nav.open .menu{display:flex;}
+  .nav-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    justify-content:space-between;
+  }
 
-  .menu a{
+  .menu-wrap{
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+
+  @media (max-width: 900px){
+    nav{
+      padding:14px 14px !important;
+      gap:12px !important;
+    }
+
+    .nav-toggle{ display:inline-flex; }
+
+    /* hide links row on mobile until opened */
+    .menu{
+      display:none !important;
+      width:100%;
+      gap:10px !important;
+      padding-top:10px;
+    }
+
+    nav.open .menu{
+      display:flex !important;
+      flex-direction:column;
+      align-items:stretch;
+      background:rgba(0,0,0,0.72);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:14px;
+      padding:12px;
+      margin-top:10px;
+    }
+
+    nav.open .menu a{
+      width:100%;
+      text-align:right;
+      padding:12px 14px;
+      background:rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:12px;
+    }
+
+    /* actions always visible and compact */
+    .actions{
+      gap:8px !important;
+      flex-wrap:nowrap !important;
+    }
+    .action-btn{
+      padding:9px 10px !important;
+      font-size:13px !important;
+    }
+
+    /* active gold box still works on mobile buttons */
+    .menu a.active::after{
+      inset:0;
+      border-radius:12px;
+    }
+  }
+
+  @media (max-width: 420px){
+    .action-btn{
+      padding:8px 9px !important;
+      font-size:12px !important;
+    }
+  }
+
+/* ===== MOBILE NAV (keeps desktop unchanged) ===== */
+#siteNav .nav-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;}
+#siteNav .nav-toggle{
+  display:none;
+  background:transparent;
+  border:1px solid rgba(212,175,55,0.85);
+  color:#fff;
+  border-radius:10px;
+  padding:10px 12px;
+  font-weight:900;
+  line-height:1;
+  cursor:pointer;
+  white-space:nowrap;
+}
+@media (max-width: 900px){
+  #siteNav{padding:14px 14px !important; gap:12px !important;}
+  #siteNav .nav-inner{flex-wrap:wrap;}
+  #siteNav .nav-toggle{display:inline-flex;}
+  #siteNav .menu{
+    display:none !important;
+    width:100%;
+    gap:10px !important;
+    padding-top:10px;
+  }
+  #siteNav.open .menu{
+    display:flex !important;
+    flex-direction:column;
+    align-items:stretch;
+    background:rgba(0,0,0,0.72);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:14px;
+    padding:12px;
+    margin-top:10px;
+    max-height:calc(100vh - 90px);
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #siteNav.open .menu a{
     width:100%;
     text-align:right;
-    background:rgba(0,0,0,.4);
-    border:1px solid rgba(255,255,255,.1);
+    padding:12px 14px;
+    background:rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:12px;
   }
-
-  .hero-center h1{font-size:48px;}
-  .hero-center p{font-size:18px;}
+  #siteNav .actions{
+    gap:8px !important;
+    flex-wrap:nowrap !important;
+  }
+  #siteNav .action-btn{
+    padding:9px 10px !important;
+    font-size:13px !important;
+  }
+  #siteNav .menu a.active::after{
+    inset:0;
+    border-radius:12px;
+  }
 }
+@media (max-width: 420px){
+  #siteNav .action-btn{
+    padding:8px 9px !important;
+    font-size:12px !important;
+  }
+}
+
+#home, #about{ scroll-margin-top: 110px; }
 </style>
+  </style>
 </head>
 
 <body>
+  <section class="hero" id="home">
+    <div class="overlay"></div>
 
-<nav>
+    <!-- NAV (IDENTICAL) -->
+<nav id="siteNav">
   <div class="nav-inner">
-    <button class="nav-toggle">☰</button>
+    <button class="nav-toggle" type="button" aria-label="פתח תפריט" aria-expanded="false">☰</button>
 
-    <div class="menu">
-      <a href="#home">עמוד הבית</a>
-      <a href="#about">אודות</a>
-      <a href="events.html">תפריט אירועים</a>
-      <a href="restaurant-menu.html">תפריט המסעדה</a>
-      <a href="contact.html">צור קשר</a>
+    <div class="menu" id="siteMenu">
+      <a class="nav-link active" href="index.html#home">עמוד הבית</a>
+      <a class="nav-link" href="index.html#about">אודות</a>
+      <a class="nav-link" href="events.html">תפריט אירועים</a>
+      <a class="nav-link" href="restaurant-menu.html">תפריט המסעדה</a>
+      <a class="nav-link" href="#">תעודות כשרות</a>
+      <a class="nav-link" href="#">גלריה</a>
+      <a class="nav-link" href="contact.html">צור קשר</a>
     </div>
 
     <div class="actions">
-      <a class="action-btn" href="#">וואטסאפ</a>
-      <a class="action-btn primary" href="form.html">הזמן שולחן</a>
+      <a class="action-btn whatsapp" href="#">וואטסאפ</a>
+      <a class="action-btn primary" href="form.html">הזמן שולחן/אירוע</a>
     </div>
   </div>
 </nav>
 
-<section class="hero" id="home">
-  <div class="hero-center">
-    <h1>שיפודי מושון</h1>
-    <p>גריל בר בשרים</p>
-  </div>
-</section>
+    <div class="hero-center">
+      <h1>שיפודי מושון</h1>
+      <p>גריל בר בשרים</p>
+    </div>
+  </section>
 
+  <!-- תוכן תפריטים נשאר בעמוד, פשוט לא בבר העליון -->
+  <section class="menu-section" id="menu">
+    <div class="menu-inner">
+      <div class="menu-content">
+        <h2>MENU</h2>
+        <p>בחרו קטגוריה ותתחילו לטעום עם העיניים.</p>
+        <div class="menu-buttons">
+          <a class="menu-btn" href="events.html">תפריט אירועים</a>
+          <a class="menu-btn" href="restaurant-menu.html">תפריט המסעדה</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section" id="about">
+    <div class="about-hero">
+      <img src="about.jpg" alt="אודות שיפודי מושון">
+      <div class="about-overlay">
+        <div class="about-content">
+          <h2>אודות</h2>
+
+          <h3>איך הכול התחיל</h3>
+          <p>בשנת 1974, הרבה לפני טרנדים, לפני רשתות ולפני תפריטים מעוצבים – היה אבא שלי. אוטובוס ישן, גריל חם, ואהבה גדולה לאוכל ולאנשים. שם, על גלגלים, התחיל הסיפור של שיפודי מושון.</p>
+          <p>מהיום הראשון זה לא היה רק בשר. זו הייתה דרך. לעבוד קשה, לכבד חומרי גלם, להאכיל אנשים בכוונה טובה ולתת לכל אחד שמגיע להרגיש בבית.</p>
+          <p>עם השנים המקום גדל, השתנה, התקדם – אבל הלב נשאר אותו לב. הטעמים הם אותם טעמים, הריחות אותם ריחות, והכבוד למסורת נשאר מעל הכול.</p>
+
+          <h3>ומה היום?</h3>
+          <p>היום שיפודי מושון הוא דור המשך. שילוב של ניסיון של עשרות שנים עם מחשבה חדשה, דיוק, וחיפוש תמידי להיות יותר טובים – בלי לשכוח מאיפה באנו.</p>
+          <p>התפריט החדש נולד בדיוק מהמקום הזה: מחווה להתחלה, לאבא, לימים הראשונים – יחד עם התפתחות, עומק וטעמים שמתאימים להיום.</p>
+          <p>כל מנה פה מספרת סיפור. של זמן, של משפחה, של דרך. ואנחנו מזמינים אתכם להיות חלק ממנו.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
 <script>
-const nav=document.querySelector('nav');
-document.querySelector('.nav-toggle')
-  .addEventListener('click',()=>nav.classList.toggle('open'));
-</script>
+(function(){
+  const nav = document.getElementById('siteNav');
+  const btn = nav ? nav.querySelector('.nav-toggle') : null;
 
+  function setExpanded(open){
+    if(!btn) return;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  if(btn && nav){
+    btn.addEventListener('click', function(){
+      nav.classList.toggle('open');
+      setExpanded(nav.classList.contains('open'));
+    });
+
+    // close after clicking a link (mobile)
+    nav.querySelectorAll('.menu a').forEach(a=>{
+      a.addEventListener('click', ()=>{
+        if(window.innerWidth <= 900){
+          nav.classList.remove('open');
+          setExpanded(false);
+        }
+      });
+    });
+
+    // close on resize to desktop
+    window.addEventListener('resize', ()=>{
+      if(window.innerWidth > 900){
+        nav.classList.remove('open');
+        setExpanded(false);
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
