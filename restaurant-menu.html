@@ -18,33 +18,58 @@
     html{scroll-behavior:smooth;}
     body{font-family:'Heebo',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
 
-    /* ===== NAV (IDENTICAL IN ALL PAGES) ===== */
+    /* ===== NAV (Responsive) ===== */
     nav{
-      position:fixed;top:0;left:0;right:0;z-index:50;
-      display:flex;direction:rtl;justify-content:space-between;align-items:center;
-      padding:18px 60px;gap:18px;
-      background:rgba(0,0,0,0.55);
-      backdrop-filter: blur(6px);
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      background:rgba(0,0,0,0.65);
+      backdrop-filter: blur(8px);
+      padding:18px 60px;
     }
-    .menu{display:flex;gap:30px;align-items:center;flex-wrap:wrap;}
+    .nav-inner{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+    }
+    .menu{
+      display:flex;
+      gap:28px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
     .menu a{
       text-decoration:none;color:#fff;font-weight:400;transition:.25s;
-      position:relative;padding:8px 18px;border-radius:4px;
+      position:relative;padding:8px 16px;border-radius:6px;
     }
     .menu a:hover{color:var(--gold);}
     .menu a.active::after{
       content:"";position:absolute;inset:0;border:1px solid var(--gold);
-      border-radius:4px;pointer-events:none;
+      border-radius:6px;pointer-events:none;
     }
 
-    .actions{display:flex;gap:12px;align-items:center;direction:ltr;flex-wrap:wrap;}
+    .actions{
+      display:flex;gap:10px;align-items:center;direction:ltr;flex-wrap:nowrap;
+    }
     .action-btn{
       background:#000;border:2px solid var(--gold);
-      padding:10px 18px;text-decoration:none;color:#fff;
-      font-weight:800;border-radius:4px;transition:.25s;line-height:1;white-space:nowrap;
+      padding:9px 14px;text-decoration:none;color:#fff;
+      font-weight:800;border-radius:6px;transition:.25s;line-height:1;white-space:nowrap;
     }
     .action-btn:hover{background:var(--gold);color:#000;}
     .action-btn.primary{background:var(--gold);color:#000;}
+
+    .nav-toggle{
+      display:none;
+      background:transparent;
+      border:1px solid rgba(212,175,55,0.9);
+      color:#fff;
+      border-radius:10px;
+      padding:10px 12px;
+      font-weight:900;
+      line-height:1;
+      cursor:pointer;
+      white-space:nowrap;
+    }
 
     /* ===== PAGE ===== */
     .page-hero{
@@ -54,7 +79,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:110px 20px 70px;
+      padding:120px 20px 70px;
     }
     .page-hero::before{
       content:"";
@@ -184,39 +209,67 @@
       opacity:0.92;
     }
 
-    @media(max-width:1000px){
-      nav{padding:16px 18px;}
-      .menu{gap:18px;}
-      .header h1{font-size:46px;}
+    /* ===== MOBILE ===== */
+    @media(max-width:900px){
+      nav{padding:14px 16px;}
+      .nav-toggle{display:inline-flex;}
+      .menu{
+        display:none;
+        width:100%;
+        flex-direction:column;
+        align-items:stretch;
+        gap:10px;
+        background:rgba(0,0,0,0.85);
+        border:1px solid rgba(255,255,255,0.10);
+        border-radius:14px;
+        padding:12px;
+        margin-top:10px;
+      }
+      nav.open .menu{display:flex;}
+      .menu a{
+        width:100%;
+        text-align:right;
+        padding:12px 14px;
+        background:rgba(0,0,0,0.35);
+        border:1px solid rgba(255,255,255,0.10);
+        border-radius:12px;
+      }
+      .action-btn{padding:9px 10px;font-size:13px;}
+      .header h1{font-size:42px;}
     }
     @media(max-width:820px){ .grid2{grid-template-columns:1fr;} }
     @media(max-width:600px){
-      .action-btn{padding:9px 14px;font-size:14px;}
-      .header h1{font-size:38px;}
+      .header h1{font-size:36px;}
       .row{padding:12px 2px;}
       .name,.price{font-size:18px;}
+    }
+    @media(max-width:420px){
+      .action-btn{padding:8px 9px;font-size:12px;}
+      .nav-toggle{padding:9px 10px;}
     }
   </style>
 </head>
 
 <body>
-  <!-- NAV (IDENTICAL) -->
-<nav>
-  <div class="menu">
-    <a class="nav-link" href="index.html#home">עמוד הבית</a>
-    <a class="nav-link" href="index.html#about">אודות</a>
-    <a class="nav-link" href="events.html">תפריט אירועים</a>
-    <a class="nav-link" href="restaurant-menu.html">תפריט המסעדה</a>
-    <a class="nav-link" href="#">תעודות כשרות</a>
-    <a class="nav-link" href="#">גלריה</a>
-    <a class="nav-link" href="contact.html">צור קשר</a>
-  </div>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <button class="nav-toggle" type="button" aria-label="פתח תפריט">☰</button>
 
-  <div class="actions">
-    <a class="action-btn whatsapp" href="#">וואטסאפ</a>
-    <a class="action-btn primary" href="form.html">הזמן שולחן/אירוע</a>
-  </div>
-</nav>
+      <div class="menu">
+        <a class="nav-link" href="index.html#home">עמוד הבית</a>
+        <a class="nav-link" href="index.html#about">אודות</a>
+        <a class="nav-link" href="events.html">תפריט אירועים</a>
+        <a class="nav-link active" href="restaurant-menu.html">תפריט המסעדה</a>
+        <a class="nav-link" href="contact.html">צור קשר</a>
+      </div>
+
+      <div class="actions">
+        <a class="action-btn whatsapp" href="#">וואטסאפ</a>
+        <a class="action-btn primary" href="form.html">הזמן שולחן/אירוע</a>
+      </div>
+    </div>
+  </nav>
 
   <section class="page-hero">
     <div class="wrap">
@@ -373,11 +426,20 @@
   </section>
 
   <script>
-    // highlight correct nav item on this page
+    // Mobile nav toggle
     (function(){
-      document.querySelectorAll('.menu a').forEach(a=>a.classList.remove('active'));
-      const a = document.querySelector('.menu a[href="restaurant-menu.html"]');
-      if(a) a.classList.add('active');
+      const nav = document.querySelector('nav');
+      const btn = document.querySelector('.nav-toggle');
+      if(btn && nav){
+        btn.addEventListener('click', () => nav.classList.toggle('open'));
+      }
+
+      // close menu after clicking a link (mobile)
+      document.querySelectorAll('.menu a').forEach(a=>{
+        a.addEventListener('click', ()=>{
+          if(window.innerWidth <= 900) nav.classList.remove('open');
+        });
+      });
     })();
   </script>
 </body>
