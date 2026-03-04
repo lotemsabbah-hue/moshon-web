@@ -11,28 +11,42 @@
   <style>
     :root{ --gold:#d4af37; }
     *{margin:0;padding:0;box-sizing:border-box;}
-    html{scroll-behavior:smooth;}
-    body{font-family:'Heebo',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
+    html{scroll-behavior:smooth;height:100%;}
+    body{font-family:'Heebo',sans-serif;background:#000;color:#fff;overflow:hidden;height:100%;}
+
+    /* ===== FULLPAGE WRAP (no free scroll) ===== */
+    #fullpage{
+      height:100vh;
+      overflow:hidden;
+      position:relative;
+    }
+    #fullpageInner{
+      width:100%;
+      will-change: transform;
+      transition: transform 700ms ease;
+    }
+    @media (prefers-reduced-motion: reduce){
+      #fullpageInner{ transition:none; }
+    }
 
     /* ===== NAV (IDENTICAL IN ALL PAGES) ===== */
- #siteNav{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:100;
-  background:rgba(0,0,0,0.65);
-  backdrop-filter: blur(8px);
-  padding:18px 60px;
-  direction:rtl;
-}
-
-#siteNav .nav-inner{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:18px;
-}
+    #siteNav{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:100;
+      background:rgba(0,0,0,0.65);
+      backdrop-filter: blur(8px);
+      padding:18px 60px;
+      direction:rtl;
+    }
+    #siteNav .nav-inner{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+    }
     .menu{display:flex;gap:30px;align-items:center;flex-wrap:wrap;}
     .menu a{
       text-decoration:none;color:#fff;font-weight:400;transition:.25s;
@@ -74,7 +88,7 @@
 
     /* ===== MENU SECTION (still exists as content, not in top nav) ===== */
     .menu-section{
-      position:relative;min-height:100vh;
+      position:relative;height:100vh;min-height:100vh;
       background:url('menu.jpg') center/cover no-repeat;
       display:flex;align-items:center;
     }
@@ -97,7 +111,7 @@
     .menu-btn:hover{filter:brightness(1.05);transform:translateY(-1px);}
 
     /* ===== ABOUT ===== */
-    .about-section{background:#0b0b0b;padding:0;position:relative;z-index:1;}
+    .about-section{background:#0b0b0b;padding:0;position:relative;z-index:1;height:100vh;}
     .about-hero{position:relative;width:100%;height:100vh;overflow:hidden;}
     .about-hero img{width:100%;height:100%;object-fit:cover;display:block;}
     .about-overlay{
@@ -110,281 +124,330 @@
       padding:46px 30px;background:rgba(0,0,0,0.50);
       border:1px solid rgba(255,255,255,0.10);
       border-radius:18px;backdrop-filter: blur(4px);
+      max-height:calc(100vh - 140px);
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
     }
     .about-content h2{font-size:44px;font-weight:900;letter-spacing:1px;margin-bottom:16px;color:var(--gold);}
     .about-content h3{font-size:26px;font-weight:800;margin:26px 0 10px;}
     .about-content p{font-size:18px;line-height:1.95;font-weight:300;opacity:0.96;margin:0 0 14px;}
 
     @media(max-width:1000px){
-      nav{padding:16px 18px;}
+      #siteNav{padding:16px 18px;}
       .menu{gap:18px;}
       .hero-center h1{font-size:56px;}
       .hero-center p{font-size:18px;}
+      .menu-content h2{font-size:64px;}
     }
     @media(max-width:600px){
       .action-btn{padding:9px 14px;font-size:14px;}
       .menu{gap:14px;}
-    }
-<style>
-  /* ===== MOBILE NAV (doesn't affect desktop) ===== */
-  .nav-toggle{
-    display:none;
-    background:transparent;
-    border:1px solid rgba(212,175,55,0.7);
-    color:#fff;
-    border-radius:10px;
-    padding:10px 12px;
-    font-weight:900;
-    line-height:1;
-    cursor:pointer;
-  }
-
-  .nav-row{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    width:100%;
-    justify-content:space-between;
-  }
-
-  .menu-wrap{
-    display:flex;
-    align-items:center;
-    gap:18px;
-  }
-
-  @media (max-width: 900px){
-    nav{
-      padding:14px 14px !important;
-      gap:12px !important;
+      .about-content{padding:28px 18px;}
+      .about-content h2{font-size:34px;}
+      .about-content p{font-size:16px;}
+      .about-content h3{font-size:22px;}
     }
 
-    .nav-toggle{ display:inline-flex; }
-
-    /* hide links row on mobile until opened */
-    .menu{
-      display:none !important;
-      width:100%;
-      gap:10px !important;
-      padding-top:10px;
+    /* ===== MOBILE NAV (keeps desktop unchanged) ===== */
+    #siteNav .nav-toggle{
+      display:none;
+      background:transparent;
+      border:1px solid rgba(212,175,55,0.85);
+      color:#fff;
+      border-radius:10px;
+      padding:10px 12px;
+      font-weight:900;
+      line-height:1;
+      cursor:pointer;
+      white-space:nowrap;
     }
-
-    nav.open .menu{
-      display:flex !important;
-      flex-direction:column;
-      align-items:stretch;
-      background:rgba(0,0,0,0.72);
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:14px;
-      padding:12px;
-      margin-top:10px;
+    @media (max-width: 900px){
+      #siteNav{padding:14px 14px !important; gap:12px !important;}
+      #siteNav .nav-inner{flex-wrap:wrap;}
+      #siteNav .nav-toggle{display:inline-flex;}
+      #siteNav .menu{
+        display:none !important;
+        width:100%;
+        gap:10px !important;
+        padding-top:10px;
+      }
+      #siteNav.open .menu{
+        display:flex !important;
+        flex-direction:column;
+        align-items:stretch;
+        background:rgba(0,0,0,0.72);
+        border:1px solid rgba(255,255,255,0.10);
+        border-radius:14px;
+        padding:12px;
+        margin-top:10px;
+        max-height:calc(100vh - 90px);
+        overflow:auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      #siteNav.open .menu a{
+        width:100%;
+        text-align:right;
+        padding:12px 14px;
+        background:rgba(0,0,0,0.35);
+        border:1px solid rgba(255,255,255,0.10);
+        border-radius:12px;
+      }
+      #siteNav .actions{
+        gap:8px !important;
+        flex-wrap:nowrap !important;
+      }
+      #siteNav .action-btn{
+        padding:9px 10px !important;
+        font-size:13px !important;
+      }
+      #siteNav .menu a.active::after{
+        inset:0;
+        border-radius:12px;
+      }
     }
-
-    nav.open .menu a{
-      width:100%;
-      text-align:right;
-      padding:12px 14px;
-      background:rgba(0,0,0,0.35);
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:12px;
+    @media (max-width: 420px){
+      #siteNav .action-btn{
+        padding:8px 9px !important;
+        font-size:12px !important;
+      }
     }
-
-    /* actions always visible and compact */
-    .actions{
-      gap:8px !important;
-      flex-wrap:nowrap !important;
-    }
-    .action-btn{
-      padding:9px 10px !important;
-      font-size:13px !important;
-    }
-
-    /* active gold box still works on mobile buttons */
-    .menu a.active::after{
-      inset:0;
-      border-radius:12px;
-    }
-  }
-
-  @media (max-width: 420px){
-    .action-btn{
-      padding:8px 9px !important;
-      font-size:12px !important;
-    }
-  }
-
-/* ===== MOBILE NAV (keeps desktop unchanged) ===== */
-#siteNav .nav-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;}
-#siteNav .nav-toggle{
-  display:none;
-  background:transparent;
-  border:1px solid rgba(212,175,55,0.85);
-  color:#fff;
-  border-radius:10px;
-  padding:10px 12px;
-  font-weight:900;
-  line-height:1;
-  cursor:pointer;
-  white-space:nowrap;
-}
-@media (max-width: 900px){
-  #siteNav{padding:14px 14px !important; gap:12px !important;}
-  #siteNav .nav-inner{flex-wrap:wrap;}
-  #siteNav .nav-toggle{display:inline-flex;}
-  #siteNav .menu{
-    display:none !important;
-    width:100%;
-    gap:10px !important;
-    padding-top:10px;
-  }
-  #siteNav.open .menu{
-    display:flex !important;
-    flex-direction:column;
-    align-items:stretch;
-    background:rgba(0,0,0,0.72);
-    border:1px solid rgba(255,255,255,0.10);
-    border-radius:14px;
-    padding:12px;
-    margin-top:10px;
-    max-height:calc(100vh - 90px);
-    overflow:auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  #siteNav.open .menu a{
-    width:100%;
-    text-align:right;
-    padding:12px 14px;
-    background:rgba(0,0,0,0.35);
-    border:1px solid rgba(255,255,255,0.10);
-    border-radius:12px;
-  }
-  #siteNav .actions{
-    gap:8px !important;
-    flex-wrap:nowrap !important;
-  }
-  #siteNav .action-btn{
-    padding:9px 10px !important;
-    font-size:13px !important;
-  }
-  #siteNav .menu a.active::after{
-    inset:0;
-    border-radius:12px;
-  }
-}
-@media (max-width: 420px){
-  #siteNav .action-btn{
-    padding:8px 9px !important;
-    font-size:12px !important;
-  }
-}
-
-#home, #about{ scroll-margin-top: 110px; }
-</style>
   </style>
 </head>
 
 <body>
-  <section class="hero" id="home">
-    <div class="overlay"></div>
+  <div id="fullpage">
+    <div id="fullpageInner">
 
-    <!-- NAV (IDENTICAL) -->
-<nav id="siteNav">
-  <div class="nav-inner">
-    <button class="nav-toggle" type="button" aria-label="פתח תפריט" aria-expanded="false">☰</button>
+      <section class="hero" id="home">
+        <div class="overlay"></div>
 
-    <div class="menu" id="siteMenu">
-      <a class="nav-link" href="index.html#home">עמוד הבית</a>
-      <a class="nav-link" href="about.html">אודות</a>
-      <a class="nav-link" href="events.html">תפריט אירועים</a>
-      <a class="nav-link" href="restaurant-menu.html">תפריט המסעדה</a>
-      <a class="nav-link" href="#">תעודות כשרות</a>
-      <a class="nav-link" href="gallery.html">גלריה</a>
-      <a class="nav-link" href="contact.html">צור קשר</a>
-    </div>
+        <!-- NAV (IDENTICAL) -->
+        <nav id="siteNav">
+          <div class="nav-inner">
+            <button class="nav-toggle" type="button" aria-label="פתח תפריט" aria-expanded="false">☰</button>
 
-    <div class="actions">
-      <a class="action-btn primary" href="form.html">הזמן שולחן/אירוע</a>
+            <div class="menu" id="siteMenu">
+              <a class="nav-link" href="index.html#home" data-fp="home">עמוד הבית</a>
+              <a class="nav-link" href="about.html">אודות</a>
+              <a class="nav-link" href="events.html">תפריט אירועים</a>
+              <a class="nav-link" href="restaurant-menu.html">תפריט המסעדה</a>
+              <a class="nav-link" href="#">תעודות כשרות</a>
+              <a class="nav-link" href="gallery.html">גלריה</a>
+              <a class="nav-link" href="contact.html">צור קשר</a>
+            </div>
+
+            <div class="actions">
+              <a class="action-btn primary" href="form.html">הזמן שולחן/אירוע</a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="hero-center">
+          <h1>שיפודי מושון</h1>
+          <p>גריל בר בשרים</p>
+        </div>
+      </section>
+
+      <section class="menu-section" id="menu">
+        <div class="menu-inner">
+          <div class="menu-content">
+            <h2>MENU</h2>
+            <p>בחרו קטגוריה ותתחילו לטעום עם העיניים.</p>
+            <div class="menu-buttons">
+              <a class="menu-btn" href="events.html">תפריט אירועים</a>
+              <a class="menu-btn" href="restaurant-menu.html">תפריט המסעדה</a>
+              <a class="menu-btn" href="#about" data-fp="about">קצת עלינו</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-section" id="about">
+        <div class="about-hero">
+          <img src="about.jpg" alt="אודות שיפודי מושון">
+          <div class="about-overlay">
+            <div class="about-content">
+              <h2>אודות</h2>
+
+              <h3>איך הכול התחיל</h3>
+              <p>בשנת 1974, הרבה לפני טרנדים, לפני רשתות ולפני תפריטים מעוצבים – היה אבא שלי. אוטובוס ישן, גריל חם, ואהבה גדולה לאוכל ולאנשים. שם, על גלגלים, התחיל הסיפור של שיפודי מושון.</p>
+              <p>מהיום הראשון זה לא היה רק בשר. זו הייתה דרך. לעבוד קשה, לכבד חומרי גלם, להאכיל אנשים בכוונה טובה ולתת לכל אחד שמגיע להרגיש בבית.</p>
+              <p>עם השנים המקום גדל, השתנה, התקדם – אבל הלב נשאר אותו לב. הטעמים הם אותם טעמים, הריחות אותם ריחות, והכבוד למסורת נשאר מעל הכול.</p>
+
+              <h3>ומה היום?</h3>
+              <p>היום שיפודי מושון הוא דור המשך. שילוב של ניסיון של עשרות שנים עם מחשבה חדשה, דיוק, וחיפוש תמידי להיות יותר טובים – בלי לשכוח מאיפה באנו.</p>
+              <p>התפריט החדש נולד בדיוק מהמקום הזה: מחווה להתחלה, לאבא, לימים הראשונים – יחד עם התפתחות, עומק וטעמים שמתאימים להיום.</p>
+              <p>כל מנה פה מספרת סיפור. של זמן, של משפחה, של דרך. ואנחנו מזמינים אתכם להיות חלק ממנו.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   </div>
-</nav>
 
-    <div class="hero-center">
-      <h1>שיפודי מושון</h1>
-      <p>גריל בר בשרים</p>
-    </div>
-  </section>
+  <script>
+  (function(){
+    // ===== MOBILE NAV TOGGLE =====
+    const nav = document.getElementById('siteNav');
+    const btn = nav ? nav.querySelector('.nav-toggle') : null;
 
-  <!-- תוכן תפריטים נשאר בעמוד, פשוט לא בבר העליון -->
-  <section class="menu-section" id="menu">
-    <div class="menu-inner">
-      <div class="menu-content">
-        <h2>MENU</h2>
-        <p>בחרו קטגוריה ותתחילו לטעום עם העיניים.</p>
-        <div class="menu-buttons">
-          <a class="menu-btn" href="events.html">תפריט אירועים</a>
-          <a class="menu-btn" href="restaurant-menu.html">תפריט המסעדה</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    function setExpanded(open){
+      if(!btn) return;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
 
-  <section class="about-section" id="about">
-    <div class="about-hero">
-      <img src="about.jpg" alt="אודות שיפודי מושון">
-      <div class="about-overlay">
-        <div class="about-content">
-          <h2>אודות</h2>
+    if(btn && nav){
+      btn.addEventListener('click', function(){
+        nav.classList.toggle('open');
+        setExpanded(nav.classList.contains('open'));
+      });
 
-          <h3>איך הכול התחיל</h3>
-          <p>בשנת 1974, הרבה לפני טרנדים, לפני רשתות ולפני תפריטים מעוצבים – היה אבא שלי. אוטובוס ישן, גריל חם, ואהבה גדולה לאוכל ולאנשים. שם, על גלגלים, התחיל הסיפור של שיפודי מושון.</p>
-          <p>מהיום הראשון זה לא היה רק בשר. זו הייתה דרך. לעבוד קשה, לכבד חומרי גלם, להאכיל אנשים בכוונה טובה ולתת לכל אחד שמגיע להרגיש בבית.</p>
-          <p>עם השנים המקום גדל, השתנה, התקדם – אבל הלב נשאר אותו לב. הטעמים הם אותם טעמים, הריחות אותם ריחות, והכבוד למסורת נשאר מעל הכול.</p>
+      // close after clicking a link (mobile)
+      nav.querySelectorAll('.menu a').forEach(a=>{
+        a.addEventListener('click', ()=>{
+          if(window.innerWidth <= 900){
+            nav.classList.remove('open');
+            setExpanded(false);
+          }
+        });
+      });
 
-          <h3>ומה היום?</h3>
-          <p>היום שיפודי מושון הוא דור המשך. שילוב של ניסיון של עשרות שנים עם מחשבה חדשה, דיוק, וחיפוש תמידי להיות יותר טובים – בלי לשכוח מאיפה באנו.</p>
-          <p>התפריט החדש נולד בדיוק מהמקום הזה: מחווה להתחלה, לאבא, לימים הראשונים – יחד עם התפתחות, עומק וטעמים שמתאימים להיום.</p>
-          <p>כל מנה פה מספרת סיפור. של זמן, של משפחה, של דרך. ואנחנו מזמינים אתכם להיות חלק ממנו.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  
-<script>
-(function(){
-  const nav = document.getElementById('siteNav');
-  const btn = nav ? nav.querySelector('.nav-toggle') : null;
-
-  function setExpanded(open){
-    if(!btn) return;
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
-
-  if(btn && nav){
-    btn.addEventListener('click', function(){
-      nav.classList.toggle('open');
-      setExpanded(nav.classList.contains('open'));
-    });
-
-    // close after clicking a link (mobile)
-    nav.querySelectorAll('.menu a').forEach(a=>{
-      a.addEventListener('click', ()=>{
-        if(window.innerWidth <= 900){
+      // close on resize to desktop
+      window.addEventListener('resize', ()=>{
+        if(window.innerWidth > 900){
           nav.classList.remove('open');
           setExpanded(false);
         }
       });
-    });
+    }
 
-    // close on resize to desktop
-    window.addEventListener('resize', ()=>{
-      if(window.innerWidth > 900){
-        nav.classList.remove('open');
-        setExpanded(false);
+    // ===== FULLPAGE (no free scroll) =====
+    const inner = document.getElementById('fullpageInner');
+    const order = ['home','menu','about'];
+    const indexById = Object.fromEntries(order.map((id,i)=>[id,i]));
+    let current = 0;
+    let locked = false;
+
+    function apply(){
+      if(!inner) return;
+      const y = -current * window.innerHeight;
+      inner.style.transform = 'translate3d(0,' + y + 'px,0)';
+      updateHash();
+    }
+
+    function updateHash(){
+      const id = order[current];
+      if(!id) return;
+      // keep URL hash in sync without jumping
+      if(location.hash !== '#' + id){
+        history.replaceState(null, '', '#' + id);
+      }
+    }
+
+    function goTo(i){
+      i = Math.max(0, Math.min(order.length - 1, i));
+      if(i === current) return;
+      current = i;
+      locked = true;
+      apply();
+      window.setTimeout(()=>{ locked = false; }, 750);
+    }
+
+    function goToId(id){
+      if(!(id in indexById)) return;
+      goTo(indexById[id]);
+    }
+
+    function onWheel(e){
+      // allow scrolling inside about text box when it can scroll
+      const scrollable = e.target.closest && e.target.closest('.about-content');
+      if(scrollable){
+        const atTop = scrollable.scrollTop <= 0;
+        const atBottom = Math.ceil(scrollable.scrollTop + scrollable.clientHeight) >= scrollable.scrollHeight;
+        if((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)){
+          return; // let it scroll inside
+        }
+      }
+
+      e.preventDefault();
+      if(locked) return;
+
+      if(e.deltaY > 0) goTo(current + 1);
+      else if(e.deltaY < 0) goTo(current - 1);
+    }
+
+    // prevent page scrolling and control transitions
+    window.addEventListener('wheel', onWheel, { passive:false });
+
+    // touch swipe
+    let touchStartY = null;
+    window.addEventListener('touchstart', (e)=>{
+      if(!e.touches || !e.touches[0]) return;
+      touchStartY = e.touches[0].clientY;
+    }, {passive:true});
+
+    window.addEventListener('touchend', (e)=>{
+      if(touchStartY === null) return;
+      const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : touchStartY;
+      const dy = touchStartY - endY;
+      touchStartY = null;
+      if(locked) return;
+
+      // ignore small swipes
+      if(Math.abs(dy) < 55) return;
+
+      if(dy > 0) goTo(current + 1);
+      else goTo(current - 1);
+    }, {passive:true});
+
+    // keyboard
+    window.addEventListener('keydown', (e)=>{
+      if(locked) return;
+      if(['ArrowDown','PageDown',' '].includes(e.key)){
+        e.preventDefault();
+        goTo(current + 1);
+      }else if(['ArrowUp','PageUp'].includes(e.key)){
+        e.preventDefault();
+        goTo(current - 1);
+      }else if(e.key === 'Home'){
+        e.preventDefault();
+        goTo(0);
+      }else if(e.key === 'End'){
+        e.preventDefault();
+        goTo(order.length - 1);
       }
     });
-  }
-})();
-</script>
+
+    // anchor clicks (only those meant for fullpage)
+    document.querySelectorAll('a[href^="#"], a[href^="index.html#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href') || '';
+        const hash = href.includes('#') ? href.split('#').pop() : '';
+        const fp = a.getAttribute('data-fp');
+        const targetId = fp || hash;
+        if(targetId && (targetId in indexById)){
+          e.preventDefault();
+          goToId(targetId);
+        }
+      });
+    });
+
+    // initial state from hash
+    const initial = (location.hash || '').replace('#','');
+    if(initial && (initial in indexById)){
+      current = indexById[initial];
+    }else{
+      current = 0;
+      history.replaceState(null, '', '#home');
+    }
+    apply();
+
+    // keep positioning correct on resize
+    window.addEventListener('resize', ()=>{
+      apply();
+    });
+  })();
+  </script>
 </body>
 </html>

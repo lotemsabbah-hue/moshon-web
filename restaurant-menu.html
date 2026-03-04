@@ -199,17 +199,83 @@
       .row{padding:12px 2px;}
       .name,.price{font-size:18px;}
     }
-  </style>
+  
+/* ===== MOBILE NAV (keeps desktop unchanged) ===== */
+#siteNav .nav-toggle{
+  display:none;
+  background:transparent;
+  border:1px solid rgba(212,175,55,0.85);
+  color:#fff;
+  border-radius:10px;
+  padding:10px 12px;
+  font-weight:900;
+  line-height:1;
+  cursor:pointer;
+  white-space:nowrap;
+}
+@media (max-width: 900px){
+  #siteNav{padding:14px 14px !important; gap:12px !important;}
+  #siteNav .nav-toggle{display:inline-flex;}
+  #siteNav .menu{
+    display:none !important;
+    width:100%;
+    gap:10px !important;
+    padding-top:10px;
+  }
+  #siteNav.open .menu{
+    display:flex !important;
+    flex-direction:column;
+    align-items:stretch;
+    background:rgba(0,0,0,0.72);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:14px;
+    padding:12px;
+    margin-top:10px;
+    max-height:calc(100vh - 90px);
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #siteNav.open .menu a{
+    width:100%;
+    text-align:right;
+    padding:12px 14px;
+    background:rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:12px;
+  }
+  #siteNav .actions{
+    gap:8px !important;
+    flex-wrap:nowrap !important;
+  }
+  #siteNav .action-btn{
+    padding:9px 10px !important;
+    font-size:13px !important;
+  }
+  #siteNav .menu a.active::after{
+    inset:0;
+    border-radius:12px;
+  }
+}
+@media (max-width: 420px){
+  #siteNav .action-btn{
+    padding:8px 9px !important;
+    font-size:12px !important;
+  }
+}
+
+</style>
 </head>
 
 <body>
   <!-- NAV (IDENTICAL) -->
-  <nav>
+  <nav id="siteNav">
+    <button class="nav-toggle" type="button" aria-label="פתח תפריט" aria-expanded="false">☰</button>
+
     <div class="menu">
       <a class="nav-link" href="index.html#home">עמוד הבית</a>
       <a class="nav-link" href="about.html">אודות</a>
       <a class="nav-link" href="events.html">תפריט אירועים</a>
-      <a class="nav-link" href="restaurant-menu.html">תפריט המסעדה</a>
+      <a class="nav-link active" href="restaurant-menu.html">תפריט המסעדה</a>
       <a class="nav-link" href="#">תעודות כשרות</a>
       <a class="nav-link" href="gallery.html">גלריה</a>
       <a class="nav-link" href="contact.html">צור קשר</a>
@@ -375,12 +441,46 @@
   </section>
 
   <script>
-    // highlight correct nav item on this page
-    (function(){
-      document.querySelectorAll('.menu a').forEach(a=>a.classList.remove('active'));
-      const a = document.querySelector('.menu a[href="restaurant-menu.html"]');
-      if(a) a.classList.add('active');
-    })();
-  </script>
+  (function(){
+    // highlight correct nav item on this page (safety)
+    document.querySelectorAll('#siteNav .menu a').forEach(a=>a.classList.remove('active'));
+    const current = document.querySelector('#siteNav .menu a[href="restaurant-menu.html"]');
+    if(current) current.classList.add('active');
+
+    // mobile nav toggle
+    const nav = document.getElementById('siteNav');
+    const btn = nav ? nav.querySelector('.nav-toggle') : null;
+
+    function setExpanded(open){
+      if(!btn) return;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    if(btn && nav){
+      btn.addEventListener('click', function(){
+        nav.classList.toggle('open');
+        setExpanded(nav.classList.contains('open'));
+      });
+
+      // close after clicking a link (mobile)
+      nav.querySelectorAll('.menu a').forEach(a=>{
+        a.addEventListener('click', ()=>{
+          if(window.innerWidth <= 900){
+            nav.classList.remove('open');
+            setExpanded(false);
+          }
+        });
+      });
+
+      // close on resize to desktop
+      window.addEventListener('resize', ()=>{
+        if(window.innerWidth > 900){
+          nav.classList.remove('open');
+          setExpanded(false);
+        }
+      });
+    }
+  })();
+</script>
 </body>
 </html>
