@@ -70,10 +70,14 @@
       background:var(--gold);color:#000;font-weight:900;
       border-radius:10px;padding:12px 20px;margin:0 auto 10px;width:fit-content;
     }
-    .priceLine{
-      text-align:center;font-size:20px;line-height:1.9;margin:0 0 18px;opacity:0.98;
-    }
-    .brush{
+.priceLine{
+  text-align:right;
+  direction:rtl;
+  font-size:20px;
+  line-height:1.9;
+  margin:0 0 18px;
+  opacity:0.98;
+}    .brush{
       display:inline-block;background:var(--gold);color:#000;font-weight:900;
       padding:10px 18px;border-radius:7px;margin:4px 0 14px;
     }
@@ -159,27 +163,23 @@
 
 <body>
   <!-- NAV (IDENTICAL) -->
-  <nav id="siteNav">
-  <div class="nav-inner">
-    <button class="nav-toggle" type="button" aria-label="פתח תפריט" aria-expanded="false">☰</button>
+<nav id="siteNav">
+  <button class="nav-toggle" type="button" aria-label="פתח תפריט" aria-expanded="false">☰</button>
 
-    <div class="menu" id="siteMenu">
-      <a class="nav-link" href="index.html#home">עמוד הבית</a>
-      <a class="nav-link" href="index.html#about">אודות</a>
-      <a class="nav-link active" href="events.html">תפריט אירועים</a>
-      <a class="nav-link" href="restaurant-menu.html">תפריט המסעדה</a>
-      <a class="nav-link" href="#">תעודות כשרות</a>
-      <a class="nav-link" href="#">גלריה</a>
-      <a class="nav-link" href="contact.html">צור קשר</a>
-    </div>
+  <div class="menu">
+    <a class="nav-link" href="index.html#home">עמוד הבית</a>
+    <a class="nav-link" href="about.html">אודות</a>
+    <a class="nav-link active" href="events.html">תפריט אירועים</a>
+    <a class="nav-link" href="restaurant-menu.html">תפריט המסעדה</a>
+    <a class="nav-link" href="#">תעודות כשרות</a>
+    <a class="nav-link" href="gallery.html">גלריה</a>
+    <a class="nav-link" href="contact.html">צור קשר</a>
+  </div>
 
-    <div class="actions">
-      <a class="action-btn whatsapp" href="#">וואטסאפ</a>
-      <a class="action-btn primary" href="form.html">הזמן שולחן/אירוע</a>
-    </div>
+  <div class="actions">
+    <a class="action-btn primary" href="form.html">הזמן שולחן/אירוע</a>
   </div>
 </nav>
-
   <section class="page-hero">
     <div class="wrap">
       <div class="header">
@@ -215,7 +215,7 @@
               <li>כבד עוף</li>
             </ul>
 
-            <p class="note">* קיימים פודרים על השולחן בתוספת 10 ₪ לסועד</p>
+            <p class="note">* קיימים קינוחים על השולחן בתוספת 10 ₪ לסועד</p>
           </div>
         </div>
       </div>

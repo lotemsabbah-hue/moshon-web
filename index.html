@@ -15,13 +15,24 @@
     body{font-family:'Heebo',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
 
     /* ===== NAV (IDENTICAL IN ALL PAGES) ===== */
-    nav{
-      position:fixed;top:0;left:0;right:0;z-index:50;
-      display:flex;direction:rtl;justify-content:space-between;align-items:center;
-      padding:18px 60px;gap:18px;
-      background:rgba(0,0,0,0.55);
-      backdrop-filter: blur(6px);
-    }
+ #siteNav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter: blur(8px);
+  padding:18px 60px;
+  direction:rtl;
+}
+
+#siteNav .nav-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+}
     .menu{display:flex;gap:30px;align-items:center;flex-wrap:wrap;}
     .menu a{
       text-decoration:none;color:#fff;font-weight:400;transition:.25s;
@@ -282,17 +293,16 @@
     <button class="nav-toggle" type="button" aria-label="פתח תפריט" aria-expanded="false">☰</button>
 
     <div class="menu" id="siteMenu">
-      <a class="nav-link active" href="index.html#home">עמוד הבית</a>
-      <a class="nav-link" href="index.html#about">אודות</a>
+      <a class="nav-link" href="index.html#home">עמוד הבית</a>
+      <a class="nav-link" href="about.html">אודות</a>
       <a class="nav-link" href="events.html">תפריט אירועים</a>
       <a class="nav-link" href="restaurant-menu.html">תפריט המסעדה</a>
       <a class="nav-link" href="#">תעודות כשרות</a>
-      <a class="nav-link" href="#">גלריה</a>
+      <a class="nav-link" href="gallery.html">גלריה</a>
       <a class="nav-link" href="contact.html">צור קשר</a>
     </div>
 
     <div class="actions">
-      <a class="action-btn whatsapp" href="#">וואטסאפ</a>
       <a class="action-btn primary" href="form.html">הזמן שולחן/אירוע</a>
     </div>
   </div>
